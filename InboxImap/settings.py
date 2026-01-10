@@ -38,9 +38,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'crm',
+    "corsheaders", #for zoho
 ]
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware", #for zoho
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -49,6 +51,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
 
 ROOT_URLCONF = 'InboxImap.urls'
 
@@ -121,3 +124,11 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+EMAIL_ACCOUNT = "info@millenniumbracingsolutions.com"
+EMAIL_PASSWORD = "MBS2023$$"
+
+
+# for Zoho
+CORS_ALLOW_ALL_ORIGINS = True

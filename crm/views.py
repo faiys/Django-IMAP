@@ -2,6 +2,9 @@ from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 from django.contrib.auth.models import User
 from rest_framework.decorators import api_view
+from django.conf import settings
+from crm import functions
+from django.views.decorators.csrf import csrf_exempt
 
 # Create your views here.
 
@@ -20,5 +23,29 @@ def login(req):
             return JsonResponse({"message": "User Created"}, status=200)
     # return JsonResponse({"message: User already created"}, status=200)
     return HttpResponse(user_obj)
+
+
+@csrf_exempt
+def inbox_view(request):  
+    page = request.GET.get('p')
+    page_size = request.GET.get('s')
+    type= request.GET.get('t')
+    mail_id = request.GET.get('id')
+    if type == "bulk":
+        emails = functions.fetch_emails(
+            settings.EMAIL_ACCOUNT,
+            settings.EMAIL_PASSWORD,
+            int(page),
+            int(page_size)
+            )
+    elif type == "single" and mail_id:
+        emails = functions.fetch_one_email_full(
+            settings.EMAIL_ACCOUNT,
+            settings.EMAIL_PASSWORD,
+            mail_id
+            )
+
+    return JsonResponse({"emails": emails}, safe=False)
+
 
 
