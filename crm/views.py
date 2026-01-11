@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 from django.contrib.auth.models import User
 from rest_framework.decorators import api_view
-from django.conf import settings
+# from django.conf import settings
 from crm import functions
 from django.views.decorators.csrf import csrf_exempt
 
@@ -31,20 +31,22 @@ def inbox_view(request):
     page_size = request.GET.get('s')
     type= request.GET.get('t')
     mail_id = request.GET.get('id')
+    user = User.objects.filter(id=request.user.id).first()
+    if not user:
+        return JsonResponse({"emails": "User not existed"})
     if type == "bulk":
         emails = functions.fetch_emails(
-            settings.EMAIL_ACCOUNT,
-            settings.EMAIL_PASSWORD,
+            user.email,
+            user.first_name,
             int(page),
             int(page_size)
             )
     elif type == "single" and mail_id:
         emails = functions.fetch_one_email_full(
-            settings.EMAIL_ACCOUNT,
-            settings.EMAIL_PASSWORD,
+           user.email,
+            user.first_name,
             mail_id
             )
-
     return JsonResponse({"emails": emails}, safe=False)
 
 
