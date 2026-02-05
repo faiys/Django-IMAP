@@ -145,5 +145,10 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+
+# EMAIL_ACCOUNT = "info@millenniumbracingsolutions.com"
+# EMAIL_PASSWORD = "MBS2023$$"
+
+
 # for Zoho
 CORS_ALLOW_ALL_ORIGINS = True
